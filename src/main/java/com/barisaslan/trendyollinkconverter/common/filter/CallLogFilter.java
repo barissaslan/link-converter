@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import static com.barisaslan.trendyollinkconverter.common.util.Utils.objectToJsonString;
+
 
 @Component
 @RequiredArgsConstructor
@@ -45,6 +47,7 @@ public class CallLogFilter extends OncePerRequestFilter {
                     .build();
 
             controllerCallLogService.create(dto);
+            logger.debug("Controller Call Log created: " + objectToJsonString(dto));
         }
 
         wrappedResponse.copyBodyToResponse();

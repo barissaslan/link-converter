@@ -5,6 +5,7 @@ import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -17,7 +18,9 @@ import java.util.regex.Pattern;
 
 import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
 import static com.barisaslan.trendyollinkconverter.common.util.Utils.hasValue;
+import static com.barisaslan.trendyollinkconverter.common.util.Utils.objectToJsonString;
 
+@Slf4j
 @Service
 public class UrlConverterServiceImpl implements UrlConverterService {
 
@@ -26,10 +29,12 @@ public class UrlConverterServiceImpl implements UrlConverterService {
     @Override
     public Deeplink convertUrlToDeeplink(WebUrl webUrl) throws InvalidUrlException {
         if (isNotValidTrendyolUrl(webUrl.getValue())) {
+            log.error("Invalid Url Exception. Url: " + webUrl.getValue());
             throw new InvalidUrlException();
         }
 
         LinkDetail linkDetail = parseWebUrl();
+        log.debug("Parsed web url: " + objectToJsonString(linkDetail));
 
         return generateDeeplink(linkDetail);
     }
