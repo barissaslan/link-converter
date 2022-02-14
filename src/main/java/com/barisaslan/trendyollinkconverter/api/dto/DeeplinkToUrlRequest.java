@@ -1,6 +1,6 @@
 package com.barisaslan.trendyollinkconverter.api.dto;
 
-import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
+import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +12,13 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UrlToDeeplinkRequest {
+public class DeeplinkToUrlRequest {
 
     @NotNull
-    private String url;
+    private String deeplink;
 
-    public WebUrl toModel() {
-        return new WebUrl(url);
+    public Deeplink toModel() {
+        return new Deeplink(deeplink);
     }
 
 }

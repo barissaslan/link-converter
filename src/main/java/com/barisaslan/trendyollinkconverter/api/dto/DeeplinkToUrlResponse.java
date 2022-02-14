@@ -6,19 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UrlToDeeplinkRequest {
+public class DeeplinkToUrlResponse {
 
-    @NotNull
     private String url;
 
-    public WebUrl toModel() {
-        return new WebUrl(url);
+    public static DeeplinkToUrlResponse fromModel(WebUrl webUrl) {
+        return DeeplinkToUrlResponse.builder()
+                .url(webUrl.getValue())
+                .build();
     }
 
 }
