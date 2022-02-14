@@ -38,7 +38,7 @@ public class CallLogFilter extends OncePerRequestFilter {
             long endTime = System.currentTimeMillis();
 
             ControllerCallLogDto dto = ControllerCallLogDto.builder()
-                    .requestBody(wrappedRequest.getQueryString())
+                    .requestBody(getRequestPayload(wrappedRequest))
                     .responseBody(getResponsePayload(wrappedResponse))
                     .apiPath(request.getRequestURI())
                     .statusCode(wrappedResponse.getStatus())
@@ -55,6 +55,24 @@ public class CallLogFilter extends OncePerRequestFilter {
 
     private String getResponsePayload(HttpServletResponse response) {
         ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+        if (wrapper != null) {
+
+            byte[] buf = wrapper.getContentAsByteArray();
+            if (buf.length > 0) {
+                int length = Math.min(buf.length, 5120);
+                try {
+                    return new String(buf, 0, length, wrapper.getCharacterEncoding());
+                } catch (UnsupportedEncodingException ex) {
+                    return "[unknown]";
+                }
+            }
+        }
+
+        return "[unknown]";
+    }
+
+    private String getRequestPayload(HttpServletRequest request) {
+        ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
         if (wrapper != null) {
 
             byte[] buf = wrapper.getContentAsByteArray();
