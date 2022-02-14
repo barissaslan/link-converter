@@ -36,7 +36,7 @@ public class UrlConverterServiceImpl implements UrlConverterService {
         LinkDetail linkDetail = parseWebUrl();
         log.debug("Parsed web url: " + objectToJsonString(linkDetail));
 
-        return generateDeeplink(linkDetail);
+        return buildDeeplink(linkDetail);
     }
 
     private boolean isNotValidTrendyolUrl(String value) {
@@ -132,12 +132,12 @@ public class UrlConverterServiceImpl implements UrlConverterService {
         return path.replaceAll(URL_SEARCH_QUERY_FINDER_REGEX, "");
     }
 
-    private Deeplink generateDeeplink(LinkDetail linkDetail) {
+    private Deeplink buildDeeplink(LinkDetail linkDetail) {
         StringBuilder deeplinkBuilder = new StringBuilder();
 
         switch (linkDetail.getPageType()) {
             case PRODUCT_DETAIL_PAGE:
-                generateProductDetailDeeplink(linkDetail, deeplinkBuilder);
+                buildProductDetailDeeplink(linkDetail, deeplinkBuilder);
                 break;
             case SEARCH_PAGE:
                 deeplinkBuilder.append(String.format(DEEPLINK_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchQuery()));
@@ -151,7 +151,7 @@ public class UrlConverterServiceImpl implements UrlConverterService {
         return new Deeplink(deeplinkBuilder.toString());
     }
 
-    private void generateProductDetailDeeplink(LinkDetail linkDetail, StringBuilder deeplinkBuilder) {
+    private void buildProductDetailDeeplink(LinkDetail linkDetail, StringBuilder deeplinkBuilder) {
         deeplinkBuilder.append(String.format(DEEPLINK_PRODUCT_DETAIL_PAGE_PLACEHOLDER, linkDetail.getContentId()));
 
         if (hasValue(linkDetail.getBouqiqueId())) {
