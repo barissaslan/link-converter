@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  mysql-service:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    networks:
+      - spring-boot-mysql-network
+    environment:
+      - MYSQL_DATABASE=trendyol
+      - MYSQL_ROOT_PASSWORD=test
+    volumes:
+      - mysql-datavolume:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  trendyol-link-converter:
+    image: barisaslan/trendyol-link-converter
+    container_name: trendyol-link-converter
+    restart: always
+    networks:
+      - spring-boot-mysql-network
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - JAR_FILE=build/libs/trendyol-link-converter.jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/trendyol?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: test
+volumes:
+  mysql-datavolume:
+
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
