@@ -5,6 +5,7 @@ import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
+import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
 import static com.barisaslan.trendyollinkconverter.common.util.Utils.hasValue;
 
+@Service
 public class UrlConverterServiceImpl implements UrlConverterService {
 
     private URL url;
