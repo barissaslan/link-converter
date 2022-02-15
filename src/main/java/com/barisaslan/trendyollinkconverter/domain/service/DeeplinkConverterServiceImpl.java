@@ -6,6 +6,8 @@ import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
+import com.barisaslan.trendyollinkconverter.domain.parser.deeplink.DeeplinkParserStrategy;
+import com.barisaslan.trendyollinkconverter.domain.parser.deeplink.DeeplinkParserStrategyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -53,23 +55,19 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
     }
 
     private LinkDetail parseDeeplink() {
-        LinkDetail linkDetail = new LinkDetail();
-        linkDetail.setPageType(PageType.OTHER_PAGE);
-
+        PageType pageType = PageType.OTHER_PAGE;
         HashMap<String, String> elementMap = parseDeeplinkElements();
 
         if (isProductDetailPage(elementMap)) {
-            String contentId = elementMap.get(DEEPLINK_CONTENT_ID_KEY);
-            linkDetail.setContentId(contentId);
-            linkDetail.setPageType(PageType.PRODUCT_DETAIL_PAGE);
-            populateWithSearchQueryParameters(linkDetail, elementMap);
+            pageType = PageType.PRODUCT_DETAIL_PAGE;
         } else if (isSearchPage(elementMap)) {
-            String searchQuery = elementMap.get(DEEPLINK_QUERY_KEY);
-            linkDetail.setSearchValue(searchQuery);
-            linkDetail.setPageType(PageType.SEARCH_PAGE);
+            pageType = PageType.SEARCH_PAGE;
         }
 
-        return linkDetail;
+        DeeplinkParserStrategyFactory deeplinkParserStrategyFactory = new DeeplinkParserStrategyFactory();
+        DeeplinkParserStrategy deeplinkParserStrategy = deeplinkParserStrategyFactory.getStrategy(pageType);
+
+        return deeplinkParserStrategy.parseDeelink(elementMap);
     }
 
     private HashMap<String, String> parseDeeplinkElements() {
@@ -87,15 +85,6 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
                 && elementMap.containsKey(DEEPLINK_CONTENT_ID_KEY);
     }
 
-    private void populateWithSearchQueryParameters(LinkDetail linkDetail, HashMap<String, String> elementMap) {
-        if (elementMap.containsKey(DEEPLINK_MERCHANT_ID_KEY)) {
-            linkDetail.setMerchantId(elementMap.get(DEEPLINK_MERCHANT_ID_KEY));
-        }
-
-        if (elementMap.containsKey(DEEPLINK_BOUTIQUE_ID_KEY)) {
-            linkDetail.setBouqiqueId(elementMap.get(DEEPLINK_BOUTIQUE_ID_KEY));
-        }
-    }
 
     private boolean isSearchPage(HashMap<String, String> elementMap) {
         return PageType.SEARCH_PAGE.getDeeplinkKey().equals(elementMap.get(DEEPLINK_PAGE_KEY))
