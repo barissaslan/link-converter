@@ -1,6 +1,8 @@
 package com.barisaslan.trendyollinkconverter.domain.service;
 
 import com.barisaslan.trendyollinkconverter.common.exception.InvalidUrlException;
+import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategy;
+import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategyFactory;
 import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
@@ -10,9 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,27 +67,21 @@ public class UrlConverterServiceImpl implements UrlConverterService {
     }
 
     private LinkDetail parseWebUrl() {
-        LinkDetail linkDetail = new LinkDetail();
-        linkDetail.setPageType(PageType.OTHER_PAGE);
-
         String path = url.getPath();
         String pathWithQuery = url.getFile();
 
-        if (isProductDetailPage(path)) {
-            String contentId = getContentId(path);
-            linkDetail.setContentId(contentId);
-            linkDetail.setPageType(PageType.PRODUCT_DETAIL_PAGE);
+        PageType pageType = PageType.OTHER_PAGE;
 
-            if (hasValue(url.getQuery())) {
-                populateWithSearchQueryParameters(linkDetail);
-            }
+        if (isProductDetailPage(path)) {
+            pageType = PageType.PRODUCT_DETAIL_PAGE;
         } else if (isSearchPage(pathWithQuery)) {
-            String searchQuery = getSearchQuery(pathWithQuery);
-            linkDetail.setSearchQuery(searchQuery);
-            linkDetail.setPageType(PageType.SEARCH_PAGE);
+            pageType = PageType.SEARCH_PAGE;
         }
 
-        return linkDetail;
+        UrlParserStrategyFactory urlParserStrategyFactory = new UrlParserStrategyFactory();
+        UrlParserStrategy urlParserStrategy = urlParserStrategyFactory.getStrategy(pageType);
+
+        return urlParserStrategy.parseUrl(url);
     }
 
     private boolean isProductDetailPage(String path) {
@@ -97,39 +90,10 @@ public class UrlConverterServiceImpl implements UrlConverterService {
         return matcher.matches();
     }
 
-    private String getContentId(String path) {
-        return path.replaceAll(URL_PRODUCT_DETAIL_PAGE_CONTENT_ID_FINDER_REGEX, "");
-    }
-
-    private void populateWithSearchQueryParameters(LinkDetail linkDetail) {
-        Map<String, String> queryMap = parseSearchQuery();
-
-        if (hasValue(queryMap.get(URL_MERCHANT_ID_KEY))) {
-            linkDetail.setMerchantId(queryMap.get(URL_MERCHANT_ID_KEY));
-        }
-
-        if (hasValue(queryMap.get(URL_BOUTIQUE_ID_KEY))) {
-            linkDetail.setBouqiqueId(queryMap.get(URL_BOUTIQUE_ID_KEY));
-        }
-    }
-
-    private HashMap<String, String> parseSearchQuery() {
-        HashMap<String, String> queryMap = new HashMap<>();
-
-        Arrays.stream(url.getQuery().split(AMPERSAND_CHARACTER))
-                .forEach(item -> queryMap.put(item.split(EQUAL_CHARACTER)[0], item.split(EQUAL_CHARACTER)[1]));
-
-        return queryMap;
-    }
-
     private boolean isSearchPage(String path) {
         Pattern pattern = Pattern.compile(URL_SEARCH_PAGE_VALIDATOR_REGEX);
         Matcher matcher = pattern.matcher(path);
         return matcher.matches();
-    }
-
-    private String getSearchQuery(String path) {
-        return path.replaceAll(URL_SEARCH_QUERY_FINDER_REGEX, "");
     }
 
     private Deeplink buildDeeplink(LinkDetail linkDetail) {
@@ -140,7 +104,7 @@ public class UrlConverterServiceImpl implements UrlConverterService {
                 buildProductDetailDeeplink(linkDetail, deeplinkBuilder);
                 break;
             case SEARCH_PAGE:
-                deeplinkBuilder.append(String.format(DEEPLINK_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchQuery()));
+                deeplinkBuilder.append(String.format(DEEPLINK_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchValue()));
                 break;
             case OTHER_PAGE:
             default:

@@ -9,6 +9,6 @@ public class LinkDetail {
     private String contentId;
     private String merchantId;
     private String bouqiqueId;
-    private String searchQuery;
+    private String searchValue;
 
 }

@@ -65,7 +65,7 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
             populateWithSearchQueryParameters(linkDetail, elementMap);
         } else if (isSearchPage(elementMap)) {
             String searchQuery = elementMap.get(DEEPLINK_QUERY_KEY);
-            linkDetail.setSearchQuery(searchQuery);
+            linkDetail.setSearchValue(searchQuery);
             linkDetail.setPageType(PageType.SEARCH_PAGE);
         }
 
@@ -110,7 +110,7 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
                 buildProductDetailUrl(linkDetail, urlBuilder);
                 break;
             case SEARCH_PAGE:
-                urlBuilder.append(String.format(URL_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchQuery()));
+                urlBuilder.append(String.format(URL_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchValue()));
                 break;
             case OTHER_PAGE:
             default:
