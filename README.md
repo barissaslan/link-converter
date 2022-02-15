@@ -2,12 +2,19 @@
 
 Web service that convert Trendyol.com links between mobile and web applications.
 
-## Installation and Running
+## Build
 
-* On the project root directory:
+* In the project root directory:
 
 ```bash
 $ ./gradlew build
+```
+
+## Run
+
+* In the project root directory:
+
+```bash
 $ docker-compose up -d
 ```
 
