@@ -8,7 +8,7 @@ import static com.barisaslan.trendyollinkconverter.common.constant.Constants.URL
 public class DefaultUrlBuilder implements UrlBuilderStrategy {
 
     @Override
-    public WebUrl buildDeeplink(LinkDetail linkDetail) {
+    public WebUrl buildUrl(LinkDetail linkDetail) {
         return new WebUrl(URL_HOME_PAGE);
     }
 

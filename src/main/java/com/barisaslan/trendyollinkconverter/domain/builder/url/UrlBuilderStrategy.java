@@ -6,6 +6,6 @@ import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
 
 public interface UrlBuilderStrategy {
 
-    WebUrl buildDeeplink(LinkDetail linkDetail) throws UrlBuildException;
+    WebUrl buildUrl(LinkDetail linkDetail) throws UrlBuildException;
 
 }

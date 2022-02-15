@@ -16,7 +16,7 @@ import static com.barisaslan.trendyollinkconverter.common.util.Utils.hasValue;
 public class ProductDetailUrlBuilder implements UrlBuilderStrategy {
 
     @Override
-    public WebUrl buildDeeplink(LinkDetail linkDetail) throws UrlBuildException {
+    public WebUrl buildUrl(LinkDetail linkDetail) throws UrlBuildException {
         StringBuilder deeplinkBuilder = new StringBuilder();
 
         String path = String.format(URL_PRODUCT_DETAIL_PAGE_PATH_PLACEHOLDER, linkDetail.getContentId());

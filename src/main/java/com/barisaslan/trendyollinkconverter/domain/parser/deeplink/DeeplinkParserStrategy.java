@@ -6,6 +6,6 @@ import java.util.HashMap;
 
 public interface DeeplinkParserStrategy {
 
-    LinkDetail parseDeelink(HashMap<String, String> elementMap);
+    LinkDetail parseDeeplink(HashMap<String, String> elementMap);
 
 }

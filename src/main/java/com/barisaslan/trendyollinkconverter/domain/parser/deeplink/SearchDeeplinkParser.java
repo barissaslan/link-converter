@@ -10,7 +10,7 @@ import static com.barisaslan.trendyollinkconverter.common.constant.Constants.DEE
 public class SearchDeeplinkParser implements DeeplinkParserStrategy {
 
     @Override
-    public LinkDetail parseDeelink(HashMap<String, String> elementMap) {
+    public LinkDetail parseDeeplink(HashMap<String, String> elementMap) {
         LinkDetail linkDetail = new LinkDetail();
 
         String searchQuery = elementMap.get(DEEPLINK_QUERY_KEY);

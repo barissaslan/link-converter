@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class DefaultDeeplinkParser implements DeeplinkParserStrategy {
 
     @Override
-    public LinkDetail parseDeelink(HashMap<String, String> elementMap) {
+    public LinkDetail parseDeeplink(HashMap<String, String> elementMap) {
         LinkDetail linkDetail = new LinkDetail();
         linkDetail.setPageType(PageType.OTHER_PAGE);
         return linkDetail;

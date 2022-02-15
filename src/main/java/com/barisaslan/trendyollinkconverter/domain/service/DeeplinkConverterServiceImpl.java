@@ -64,7 +64,7 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
         DeeplinkParserStrategyFactory deeplinkParserStrategyFactory = new DeeplinkParserStrategyFactory();
         DeeplinkParserStrategy deeplinkParserStrategy = deeplinkParserStrategyFactory.getStrategy(pageType);
 
-        return deeplinkParserStrategy.parseDeelink(elementMap);
+        return deeplinkParserStrategy.parseDeeplink(elementMap);
     }
 
     private HashMap<String, String> parseDeeplinkElements() {
@@ -92,7 +92,7 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
         UrlBuilderStrategyFactory urlBuilderStrategyFactory = new UrlBuilderStrategyFactory();
         UrlBuilderStrategy urlBuilderStrategy = urlBuilderStrategyFactory.getStrategy(linkDetail.getPageType());
 
-        return urlBuilderStrategy.buildDeeplink(linkDetail);
+        return urlBuilderStrategy.buildUrl(linkDetail);
     }
 
 }

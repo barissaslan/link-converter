@@ -10,7 +10,7 @@ import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
 public class ProductDetailDeeplinkParser implements DeeplinkParserStrategy {
 
     @Override
-    public LinkDetail parseDeelink(HashMap<String, String> elementMap) {
+    public LinkDetail parseDeeplink(HashMap<String, String> elementMap) {
         LinkDetail linkDetail = new LinkDetail();
 
         String contentId = elementMap.get(DEEPLINK_CONTENT_ID_KEY);

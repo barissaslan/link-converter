@@ -8,7 +8,7 @@ import static com.barisaslan.trendyollinkconverter.common.constant.Constants.URL
 public class SearchUrlBuilder implements UrlBuilderStrategy {
 
     @Override
-    public WebUrl buildDeeplink(LinkDetail linkDetail) {
+    public WebUrl buildUrl(LinkDetail linkDetail) {
         return new WebUrl(String.format(URL_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchValue()));
     }
 
