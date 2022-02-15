@@ -55,7 +55,7 @@ class LinkConverterControllerTest {
         when(urlConverterService.convertUrlToDeeplink(any(WebUrl.class)))
                 .thenReturn(new Deeplink("ty://?Page=Home"));
 
-        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from_url")
+        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from-url")
                         .content(objectToJsonString(UrlToDeeplinkRequest.builder().url("https://www.trendyol.com").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
@@ -72,7 +72,7 @@ class LinkConverterControllerTest {
         when(deeplinkConverterService.convertDeeplinkToUrl(any(Deeplink.class)))
                 .thenReturn(new WebUrl("https://www.trendyol.com/sr?q=elbise"));
 
-        MvcResult result = mvc.perform(post("/api/conversion/url/from_deeplink")
+        MvcResult result = mvc.perform(post("/api/conversion/url/from-deeplink")
                         .content(objectToJsonString(DeeplinkToUrlRequest.builder().deeplink("ty://?Page=Search&Query=elbise").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();

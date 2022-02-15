@@ -24,7 +24,7 @@ $ docker-compose up -d
 
 Method: POST
 
-URL: hostname:8080/api/conversion/deeplink/from_url 
+URL: hostname:8080/api/conversion/deeplink/from-url 
 
 Body:
 ```json

@@ -29,13 +29,13 @@ public class LinkConverterController {
     private final UrlConverterService urlConverterService;
     private final DeeplinkConverterService deeplinkConverterService;
 
-    @PostMapping(value = "/deeplink/from_url")
+    @PostMapping(value = "/deeplink/from-url")
     public ResponseEntity<UrlToDeeplinkResponse> convertUrlToDeeplink(@RequestBody @Valid UrlToDeeplinkRequest request) throws InvalidUrlException {
         Deeplink deeplink = urlConverterService.convertUrlToDeeplink(request.toModel());
         return new ResponseEntity<>(UrlToDeeplinkResponse.fromModel(deeplink), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/url/from_deeplink")
+    @PostMapping(value = "/url/from-deeplink")
     public ResponseEntity<DeeplinkToUrlResponse> convertDeeplinkToUrl(@RequestBody @Valid DeeplinkToUrlRequest request) throws InvalidDeeplinkException, UrlBuildException {
         WebUrl webUrl = deeplinkConverterService.convertDeeplinkToUrl(request.toModel());
         return new ResponseEntity<>(DeeplinkToUrlResponse.fromModel(webUrl), HttpStatus.OK);

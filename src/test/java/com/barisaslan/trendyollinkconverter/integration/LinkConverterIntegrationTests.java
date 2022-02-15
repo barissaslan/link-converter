@@ -62,7 +62,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertUrlToDeeplinkShouldReturnDeeplink() throws Exception {
-        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from_url")
+        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from-url")
                         .content(objectToJsonString(UrlToDeeplinkRequest.builder().url("https://www.trendyol.com/sr?q=%C3%BCt%C3%BC").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
@@ -75,7 +75,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertUrlToDeeplinkShouldSaveCallLogToDatabase() throws Exception {
-        mvc.perform(post("/api/conversion/deeplink/from_url")
+        mvc.perform(post("/api/conversion/deeplink/from-url")
                         .content(objectToJsonString(UrlToDeeplinkRequest.builder().url("https://www.trendyol.com/sr?q=%C3%BCt%C3%BC").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
@@ -87,7 +87,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertUrlToDeeplinkShouldReturn406() throws Exception {
-        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from_url")
+        MvcResult result = mvc.perform(post("/api/conversion/deeplink/from-url")
                         .content(objectToJsonString(UrlToDeeplinkRequest.builder().url("https://www.test.com/").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andReturn();
@@ -97,7 +97,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertDeeplinkToUrlShouldReturnUrl() throws Exception {
-        MvcResult result = mvc.perform(post("/api/conversion/url/from_deeplink")
+        MvcResult result = mvc.perform(post("/api/conversion/url/from-deeplink")
                         .content(objectToJsonString(DeeplinkToUrlRequest.builder().deeplink("ty://?Page=Search&Query=%C3%BCt%C3%BC").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
@@ -110,7 +110,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertDeeplinkToUrlShouldSaveCallLogToDatabase() throws Exception {
-        mvc.perform(post("/api/conversion/url/from_deeplink")
+        mvc.perform(post("/api/conversion/url/from-deeplink")
                         .content(objectToJsonString(DeeplinkToUrlRequest.builder().deeplink("ty://?Page=Search&Query=%C3%BCt%C3%BC").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
@@ -122,7 +122,7 @@ class LinkConverterIntegrationTests {
 
     @Test
     void convertDeeplinkToUrlShouldReturn406() throws Exception {
-        MvcResult result = mvc.perform(post("/api/conversion/url/from_deeplink")
+        MvcResult result = mvc.perform(post("/api/conversion/url/from-deeplink")
                         .content(objectToJsonString(DeeplinkToUrlRequest.builder().deeplink("twitter://?Page=Search&Query=%C3%BCt%C3%BC").build()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andReturn();
