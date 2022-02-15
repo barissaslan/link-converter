@@ -19,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
-import static com.barisaslan.trendyollinkconverter.common.util.Utils.objectToJsonString;
 
 @Slf4j
 @Service
@@ -37,7 +36,7 @@ public class DeeplinkConverterServiceImpl implements DeeplinkConverterService {
         deeplinkValue = deeplink.getValue();
 
         LinkDetail linkDetail = parseDeeplink();
-        log.debug("Parsed deeplink: " + objectToJsonString(linkDetail));
+        log.debug("Parsed deeplink: " + linkDetail.toString());
 
         return buildWebUrl(linkDetail);
     }

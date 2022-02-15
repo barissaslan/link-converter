@@ -113,7 +113,7 @@ class UrlConverterServiceTest {
     }
 
     @Test
-    void shouldThrowInvalidUrlExceptionWhenGivenInvalidUrl()  {
+    void shouldThrowInvalidUrlExceptionWhenGivenInvalidUrl() {
         // given
         WebUrl webUrl = new WebUrl("htp/asd");
 
@@ -128,7 +128,7 @@ class UrlConverterServiceTest {
     }
 
     @Test
-    void shouldThrowInvalidUrlExceptionWhenGivenNonTrendyolUrl()  {
+    void shouldThrowInvalidUrlExceptionWhenGivenNonTrendyolUrl() {
         // given
         WebUrl webUrl = new WebUrl("https://test.com/Hesabim/Favoriler");
 

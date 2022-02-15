@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
-import static com.barisaslan.trendyollinkconverter.common.util.Utils.objectToJsonString;
 
 @Slf4j
 @Service
@@ -34,7 +33,7 @@ public class UrlConverterServiceImpl implements UrlConverterService {
         }
 
         LinkDetail linkDetail = parseWebUrl();
-        log.debug("Parsed web url: " + objectToJsonString(linkDetail));
+        log.debug("Parsed web url: " + linkDetail.toString());
 
         return buildDeeplink(linkDetail);
     }
