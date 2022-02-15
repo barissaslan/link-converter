@@ -1,12 +1,14 @@
 package com.barisaslan.trendyollinkconverter.domain.service;
 
 import com.barisaslan.trendyollinkconverter.common.exception.InvalidUrlException;
-import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategy;
-import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategyFactory;
+import com.barisaslan.trendyollinkconverter.domain.builder.DeeplinkBuilderStrategy;
+import com.barisaslan.trendyollinkconverter.domain.builder.DeeplinkBuilderStrategyFactory;
 import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
+import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategy;
+import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.barisaslan.trendyollinkconverter.common.constant.Constants.*;
-import static com.barisaslan.trendyollinkconverter.common.util.Utils.hasValue;
 import static com.barisaslan.trendyollinkconverter.common.util.Utils.objectToJsonString;
 
 @Slf4j
@@ -97,40 +98,10 @@ public class UrlConverterServiceImpl implements UrlConverterService {
     }
 
     private Deeplink buildDeeplink(LinkDetail linkDetail) {
-        StringBuilder deeplinkBuilder = new StringBuilder();
+        DeeplinkBuilderStrategyFactory deeplinkBuilderStrategyFactory = new DeeplinkBuilderStrategyFactory();
+        DeeplinkBuilderStrategy deeplinkBuilderStrategy = deeplinkBuilderStrategyFactory.getStrategy(linkDetail.getPageType());
 
-        switch (linkDetail.getPageType()) {
-            case PRODUCT_DETAIL_PAGE:
-                buildProductDetailDeeplink(linkDetail, deeplinkBuilder);
-                break;
-            case SEARCH_PAGE:
-                deeplinkBuilder.append(String.format(DEEPLINK_SEARCH_PAGE_PLACEHOLDER, linkDetail.getSearchValue()));
-                break;
-            case OTHER_PAGE:
-            default:
-                deeplinkBuilder.append(DEEPLINK_HOME_PAGE);
-                break;
-        }
-
-        return new Deeplink(deeplinkBuilder.toString());
-    }
-
-    private void buildProductDetailDeeplink(LinkDetail linkDetail, StringBuilder deeplinkBuilder) {
-        deeplinkBuilder.append(String.format(DEEPLINK_PRODUCT_DETAIL_PAGE_PLACEHOLDER, linkDetail.getContentId()));
-
-        if (hasValue(linkDetail.getBouqiqueId())) {
-            deeplinkBuilder.append(AMPERSAND_CHARACTER)
-                    .append(DEEPLINK_BOUTIQUE_ID_KEY)
-                    .append(EQUAL_CHARACTER)
-                    .append(linkDetail.getBouqiqueId());
-        }
-
-        if (hasValue(linkDetail.getMerchantId())) {
-            deeplinkBuilder.append(AMPERSAND_CHARACTER)
-                    .append(DEEPLINK_MERCHANT_ID_KEY)
-                    .append(EQUAL_CHARACTER)
-                    .append(linkDetail.getMerchantId());
-        }
+        return deeplinkBuilderStrategy.buildDeeplink(linkDetail);
     }
 
 }
