@@ -1,4 +1,4 @@
-package com.barisaslan.trendyollinkconverter.domain.parser;
+package com.barisaslan.trendyollinkconverter.domain.parser.url;
 
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 

@@ -1,4 +1,4 @@
-package com.barisaslan.trendyollinkconverter.domain.builder;
+package com.barisaslan.trendyollinkconverter.domain.builder.deeplink;
 
 import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;

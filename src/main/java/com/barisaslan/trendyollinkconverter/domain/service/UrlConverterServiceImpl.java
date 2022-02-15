@@ -1,14 +1,14 @@
 package com.barisaslan.trendyollinkconverter.domain.service;
 
 import com.barisaslan.trendyollinkconverter.common.exception.InvalidUrlException;
-import com.barisaslan.trendyollinkconverter.domain.builder.DeeplinkBuilderStrategy;
-import com.barisaslan.trendyollinkconverter.domain.builder.DeeplinkBuilderStrategyFactory;
+import com.barisaslan.trendyollinkconverter.domain.builder.deeplink.DeeplinkBuilderStrategy;
+import com.barisaslan.trendyollinkconverter.domain.builder.deeplink.DeeplinkBuilderStrategyFactory;
 import com.barisaslan.trendyollinkconverter.domain.model.Deeplink;
 import com.barisaslan.trendyollinkconverter.domain.model.LinkDetail;
 import com.barisaslan.trendyollinkconverter.domain.model.PageType;
 import com.barisaslan.trendyollinkconverter.domain.model.WebUrl;
-import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategy;
-import com.barisaslan.trendyollinkconverter.domain.parser.UrlParserStrategyFactory;
+import com.barisaslan.trendyollinkconverter.domain.parser.url.UrlParserStrategy;
+import com.barisaslan.trendyollinkconverter.domain.parser.url.UrlParserStrategyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
